@@ -1,0 +1,75 @@
+//creation of heap
+#include <iostream>
+using namespace std;
+
+class Heap{
+  //heap= complete binary tree + heap property(max or min)
+  //parent(1 indexed)= index/2
+  // parent leftindex= 2*index
+  // parent rightindex=2*index +1
+public:
+int* arr;
+int capacity;
+int size;
+
+Heap(int capacity){
+  this->arr=new int[capacity];
+  this->capacity=capacity;
+  this->size=0;
+}
+
+void insert(int val){
+   if(size==capacity){
+     cout<<"overflow";
+     return;
+   }
+   size++;
+   int index=size;
+   arr[index]=val;
+
+// ab jo value humne insert ki hai usko sahi position pr insert krna hai
+//mtlb min or max heap property
+// here building for max heap
+// jab heap me keval single element hai yoh hm usko kyu heapify karenge
+//heapification
+
+while(index >1){
+  int parentindex=index/2;
+  if(arr[parentindex] < arr[index]){
+    swap(arr[parentindex],arr[index]);
+    index=parentindex;
+  }else{
+    break;
+  }
+}
+}
+
+int getsize(){
+  return this->size;
+}
+
+void printheap(){
+  for(int i=1;i<=size;i++) cout<<arr[i]<<" ";
+}
+
+
+
+}
+
+
+};
+
+int main() {
+  
+Heap h(20);
+
+h.insert(10);
+h.insert(20);
+h.insert(5);
+h.insert(11);
+h.insert(6);
+
+h.printheap();
+
+  return 0;
+}
