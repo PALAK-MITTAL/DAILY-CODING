@@ -1,0 +1,122 @@
+#include <iostream>
+using namespace std;
+#include<bits/stdc++.h>
+
+class TrieNode{
+ public:
+
+ char val;
+ TrieNode* children[26];
+ bool isTerminal;
+//ctor
+ TrieNode(char val){
+  this->val=val;
+  this->isTerminal=false;
+  for(int i=0;i<26;i++) children[i]=NULL;
+ }
+
+};
+
+void insertion(TrieNode* root, string word){
+//  cout<<"received: "<<word<<endl;
+  //base case
+  if(word.length()==0) {
+    root->isTerminal=true;
+    return;
+  }
+  
+  char ch=word[0];
+  int index=ch-'a';
+  TrieNode*  child;
+  if(root->children[index]!=NULL){
+    //present
+    child=root->children[index];
+  }
+  else{
+    child=new TrieNode(ch);
+    root->children[index]=child;
+  }
+
+//recursion
+insertion(child,word.substr(1));
+
+}
+
+//searching
+bool searchword(TrieNode* root, string word){
+ //base case
+ if(word.length()==0){
+  return root->isTerminal;
+ }
+
+char ch=word[0];
+  int index=ch-'a';
+  TrieNode*  child;
+  if(root->children[index]!=NULL){
+    //present
+    child=root->children[index];
+  }
+  else{
+   return false;
+  }
+
+//recursion
+ return searchword(child,word.substr(1));
+
+}
+
+//deletion
+void deleteword(TrieNode* root, string word){
+ //base case
+ if(word.length()==0){
+  cout<<"deleted....."<<endl;
+   root->isTerminal=false;
+   return;
+ }
+
+char ch=word[0];
+  int index=ch-'a';
+  TrieNode*  child;
+  if(root->children[index]!=NULL){
+    //present
+    child=root->children[index];
+  }
+  else{
+    cout<<"word you passed not found so cant delete!....."<<endl;
+   return ;
+  }
+
+//recursion
+ return deleteword(child,word.substr(1));
+
+}
+
+
+int main() {
+  
+TrieNode* root=new TrieNode('-');
+
+//
+insertion(root,"cater");
+insertion(root,"care");
+insertion(root,"com");
+insertion(root,"lover");
+insertion(root,"loved");
+insertion(root,"load");
+insertion(root,"lov");
+insertion(root,"bat");
+insertion(root,"cat");
+insertion(root,"car");
+
+cout<<"insertion done............"<<endl;
+
+//
+cout<<searchword(root,"loved")<<endl;
+cout<<searchword(root,"lovd")<<endl;
+
+//
+deleteword(root,"car");
+deleteword(root,"cart");
+
+  return 0;
+}
